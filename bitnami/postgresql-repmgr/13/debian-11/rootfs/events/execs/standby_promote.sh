@@ -70,7 +70,7 @@ notify_pgbouncer() {
     local pgbouncer_ssh_port="$(parse_uri "${node_ssh}" "port")"
 
     log_pure "[notify pgbouncer] rsync configuration to node=${pgbouncer_ssh_host}:${pgbouncer_ssh_port}, user=${PGBOUNCER_CONTAINER_USERNAME}"
-    rsync -e "sshpass -p ${PGBOUNCER_CONTAINER_PASSWORD} ssh -o StrictHostKeyChecking=no -p ${pgbouncer_ssh_port}" "${PGBOUNCER_DATABASE_INI_TEMP}" \
+    rsync -e "sshpass -p ${PGBOUNCER_CONTAINER_PASSWORD} ssh -o StrictHostKeyChecking=no -o UserKnownHostsFile=/dev/null -p ${pgbouncer_ssh_port}" "${PGBOUNCER_DATABASE_INI_TEMP}" \
       "${PGBOUNCER_CONTAINER_USERNAME}"@"${pgbouncer_ssh_host}":"${PGBOUNCER_DATABASE_INI}"
   done
 
