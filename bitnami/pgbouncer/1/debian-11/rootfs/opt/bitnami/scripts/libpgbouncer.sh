@@ -193,7 +193,7 @@ pgbouncer_initialize() {
     pgbouncer_copy_mounted_config
 
     info "Waiting for PostgreSQL backend to be accessible"
-    if ! retry_while "wait-for-port --host $POSTGRESQL_HOST $POSTGRESQL_PORT" "$PGBOUNCER_INIT_SLEEP_TIME" "$PGBOUNCER_INIT_MAX_RETRIES"; then
+    if ! retry_while "wait-for-port --host $POSTGRESQL_HOST $POSTGRESQL_PORT" "$PGBOUNCER_INIT_MAX_RETRIES" "$PGBOUNCER_INIT_SLEEP_TIME"; then
         error "Backend $POSTGRESQL_HOST not accessible"
         exit 1
     else
@@ -296,6 +296,7 @@ pgbouncer_initialize() {
             "log_pooler_errors:${PGBOUNCER_LOG_POOLER_ERRORS}"
             "log_stats:${PGBOUNCER_LOG_STATS}"
             "stats_period:${PGBOUNCER_STATS_PERIOD}"
+            "server_round_robin:${PGBOUNCER_SERVER_ROUND_ROBIN}"
             "server_fast_close:${PGBOUNCER_SERVER_FAST_CLOSE}"
             "server_lifetime:${PGBOUNCER_SERVER_LIFETIME}"
             "server_idle_timeout:${PGBOUNCER_SERVER_IDLE_TIMEOUT}"
@@ -307,6 +308,7 @@ pgbouncer_initialize() {
             "query_wait_timeout:${PGBOUNCER_QUERY_WAIT_TIMEOUT}"
             "client_idle_timeout:${PGBOUNCER_CLIENT_IDLE_TIMEOUT}"
             "max_prepared_statements:${PGBOUNCER_MAX_PREPARED_STATEMENTS}"
+            "application_name_add_host:${PGBOUNCER_APPLICATION_NAME_ADD_HOST}"
         )
         for pair in "${key_value_pairs[@]}"; do
             local key value
